@@ -1,0 +1,78 @@
+.mt-1 {
+    margin-top: 10px;
+}
+.mr-1 {
+    margin-right: 10px;
+}
+.ml-1 {
+    margin-left: 10px;
+}
+.mb-1 {
+    margin-bottom: 10px;
+}
+.gap-1 {
+    gap: 10px;
+}
+.gap-2 {
+    gap: 20px;
+}
+.gap-05 {
+    gap: 5px;
+}
+
+
+
+.flex {
+    display: flex;
+}
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.flex-end {
+    display: flex;
+    justify-content: flex-end;
+}
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+.center-1 {
+    text-align: center;
+}
+
+
+
+
+.inherit {
+    width: inherit;
+    height: inherit;
+}
+
+.relative {
+    position: relative;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.not-allow {
+    cursor: not-allowed;
+}
+
+.visible {
+    visibility: visible;
+}
+
+.hidden {
+    visibility: hidden;
+}

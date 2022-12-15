@@ -1,66 +1,106 @@
-import {useState, useId} from 'react';
+import {useState} from 'react';
 
-import axios from 'axios'
-import show from '../../image/view.png';
-import hide from '../../image/hide.png';
+import { Input, InputPass } from './utils';
 
 
 const data_init = {
     input: {
-        Username: '',
-        Password: '',
-        "Confirm Password": '',
-        Email: ''
+        Username: {txt: '', warn: false},
+        Password: {txt: '', warn: false},
+        "Confirm Password": {txt: '', warn: false},
+        Email: {txt: '', warn: false}
     },
 
     isSignIn: true,
-    allowSubmit: false
+    allowSubmit: false,
+    submitted: false,
+}
+const warn = {
+    Username: 'Your username must be between 6 to 30 characters.',
+    Password: 'Your password must be between 6 to 18 characters and has a medium strength.',
+    "Confirm Password": "Password must be matched."
 }
 const btn_class = "btn-1 mt-1 pointer";
-function Login() {
 
+function Login() {
     const [data, setData] = useState(data_init);
 
     function handleSubmit(e) {
         e.preventDefault();
-        
-        if (data.allowSubmit) {
-            setData(prev => ({...prev, input: data_init.input, allowSubmit: false}));
-        }
-    }
-
-    function handleInput(e) {
-        setData({...data, input: {...data.input, [e.target.name]: e.target.value} });
 
         if (data.isSignIn) {
-            if (data.input.Username !== '' && data.input.Password !== '') {
+            if (data.input.Username.txt !== '' && data.input.Password.txt !== '') {
                 setData(prev => ({...prev, allowSubmit: true}));
+                setData(prev => ({...prev, input: data_init.input, allowSubmit: false, submitted: true}));
+            } else {
+                setData(prev => ({...prev, allowSubmit: false}));
+            }
+        } else {
+            if (data.input.Username.txt !== '' && data.input.Password !== '' && data.input["Confirm Password"] !== '' && data.input.Email !== '') {
+                setData(prev => ({...prev, allowSubmit: true}));
+                setData(prev => ({...prev, input: data_init.input, allowSubmit: false, submitted: true}));
             } else {
                 setData(prev => ({...prev, allowSubmit: false}));
             }
         }
     }
 
+    function handleInput(e) {
+        let test = false;
+        const value = e.target.value;
+        const name = e.target.name;
+
+        if (name === "Username")
+            test = checkUsername(value);
+        else if (name === "Password")
+            test = checkPassword(value);
+        else if (name === "Confirm Password")
+            test = checkConfirmPassword(value);
+        else if (name === "Email")
+            test = checkEmail(value);
+
+        setData(prev => ({...prev, 
+            input: {...prev.input, 
+                [e.target.name]: {txt: e.target.value, warn: !test}
+            }
+        }));
+    }
+
+    function checkUsername(str) {
+        return str.length > 6 && str.length < 30;
+    }
+
+    function checkPassword(str) {
+        return true;
+    }
+
+    function checkConfirmPassword(str) {
+        return str === data.input.Password.txt;
+    }
+
+    function checkEmail(str) {
+        return str.length < 255
+    }
+
     function showSignUp() {
-        setData(prev => ({...prev, isSignIn: !prev.isSignIn}))
+        setData(prev => ({...data_init, isSignIn: !prev.isSignIn}))
     }
 
     return <main id="login">
         <div id="login_wrapper">
             <div id="login_form">
-                <div className="center-1">
+                <div className="center-1 mb-1">
                     <h3>Login</h3>
                 </div>
 
                 <form className='flex-col gap-2' onSubmit={handleSubmit}>
                     <div className='flex-col gap-2'>
-                        <Input value={data.input.Username} setValue={handleInput} name="Username"/>
-                        <InputPass value={data.input.Password} setValue={handleInput} name="Password"/>
-                        {data.isSignIn || <InputPass value={data.input['Confirm Password']} setValue={handleInput} name="Confirm Password"/>}
-                        {data.isSignIn || <Input value={data.input.Email} setValue={handleInput} name="Email"/>}
+                        {data.isSignIn ? <SignIn data={data} handleInput={handleInput} /> 
+                                       : <SignUp data={data} handleInput={handleInput} />}
                     </div>
                     
                     <button type='submit' className={data.allowSubmit ? btn_class + " allow" : btn_class + " not-allow"}>Sign In</button>
+                    {data.submitted && <i className="loader --4"></i>}
                 </form>
 
                 <div className="flex-between mt-1">
@@ -72,55 +112,36 @@ function Login() {
     </main>
 }
 
-function Input(props) {
-    const { value, setValue, name } = props
-    const id = useId();
-
-    return <div className='flex-col gap-05'>
-        <div className="flex-between">
-            <label htmlFor={`input-${id}`} className="label-1 pointer">{name}</label>
-            {/* <div className="ipt-required">Required *</div> */}
-        </div>
-        <div className="flex-col">
-            <div className="inherit">
-                <input type="text" id={`input-${id}`} name={name} className="input-1" placeholder=" " maxLength={255}
-                        value={value} onChange={setValue} required/>
-            </div>
-        </div>
-    </div>
+function SignIn(props) {
+    const { data, handleInput } = props
+    return <>
+        <Input value={data.input.Username.txt} setValue={handleInput} name="Username"/>
+        <InputPass value={data.input.Password.txt} setValue={handleInput} name="Password"/>
+    </>
 }
 
-function InputPass(props) {
-    const { value, setValue, name, required = true } = props
-    const id = useId();
+function SignUp(props) {
+    const { data, handleInput } = props
+    const ipt = data.input;
 
-    const [pass, setPass] = useState({display: show, type: "password"});
-    function toggleView() {
-        setPass(prev => {
-            if (prev.display === show) {
-                return {display: hide, type: "text"};
-            } else {
-                return {display: show, type: "password"};
-            }
-        });
-    }
+    const username = ipt.Username.warn;
+    const pass = ipt.Password.warn;
+    const confirm = ipt["Confirm Password"].warn;
+    const email = ipt.Email.warn;
 
-    return <div className="flex-col gap-05">
-        <div className="flex-between">
-            <label htmlFor={`password-${id}`} className="label-1 pointer">{name}</label>
-            {/* <div className="ipt-required">Required *</div> */}
-        </div>
-        <div className="flex-col gap-1">
-            <div className="inherit relative">
-                <input type={pass.type} id={`password-${id}`} name={name} className="input-1" placeholder=" " maxLength={16}
-                        value={value} onChange={setValue} required={required}/>
+    return <>
+        <Input value={data.input.Username.txt} setValue={handleInput} name="Username" 
+               className={username ? "input-2" : "input-1"} warning={{isShow: username, msg: warn.Username}}/>
 
-                <div className="pass-wrap flex-center">
-                    <img className="pass-img" src={pass.display} onClick={toggleView}/>
-                </div>
-            </div>
-        </div>
-    </div>
+        <InputPass value={data.input.Password.txt} setValue={handleInput} name="Password" 
+                   className={pass ? "input-2" : "input-1"} warning={{isShow: pass, msg: warn.Password}}/>
+
+        <InputPass value={data.input['Confirm Password'].txt} setValue={handleInput} name="Confirm Password" 
+                   className={confirm ? "input-2" : "input-1"} warning={{isShow: confirm, msg: warn["Confirm Password"]}}/>
+
+        <Input value={data.input.Email.txt} setValue={handleInput} name="Email" type="email" 
+               className={email ? "input-2" : "input-1"}/>
+    </>
 }
 
 export default Login;

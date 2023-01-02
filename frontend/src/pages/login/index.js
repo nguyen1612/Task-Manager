@@ -10,7 +10,7 @@ import {
 
 const data_init = {
     input: {
-        Username: {txt: '', warn: false, pass: false},
+        Email: {txt: '', warn: false, pass: false},
         Password: {txt: '', warn: false, pass: false},
     },
 
@@ -36,7 +36,7 @@ function Login() {
             }
 
             const s_data = {
-                username: data.input.Username.txt,
+                email: data.input.Email.txt,
                 password: data.input.Password.txt,
             }
 
@@ -55,7 +55,7 @@ function Login() {
         const value = e.target.value;
         const name = e.target.name;
 
-        if (name === "Username")
+        if (name === "Email")
             test = checkUsername(value);
         else if (name === "Password")
             test = checkPassword(value);
@@ -78,7 +78,6 @@ function Login() {
     function showSignUp() {
         navigate('/signup');
     }
-    
 
     return <main id="login">
         <div id="login_wrapper">
@@ -89,7 +88,7 @@ function Login() {
 
                 <form className='flex-col gap-2' onSubmit={handleSubmit}>
                     <div className='flex-col gap-2'>
-                        <Input value={data.input.Username.txt} setValue={handleInput} name="Username"/>
+                        <Input value={data.input.Email.txt} setValue={handleInput} name="Email"/>
                         <InputPass value={data.input.Password.txt} setValue={handleInput} name="Password"/>
                     </div>
                     

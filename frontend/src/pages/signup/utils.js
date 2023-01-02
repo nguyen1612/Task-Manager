@@ -13,7 +13,3 @@ export function checkConfirmPassword(str, data) {
 export function checkEmail(str) {
     return str.length < 255
 }
-
-export function checkAll(except, data) {
-    
-}

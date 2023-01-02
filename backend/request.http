@@ -1,0 +1,18 @@
+POST http://localhost:5000/users/sendMail
+Content-Type: application/json
+
+{
+    "email": "nguyenpgn1612@gmail.com",
+    "subject": "NodeJS send Email by OAuth2",
+    "content": "Hello Nguyen, Thanh cong gui email roi, hehe"
+}
+
+###
+POST http://localhost:5000/users/signup
+Content-Type: application/json
+
+{
+    "username": "nguyen4562",
+    "email": "nguyenpgn1612@gmail.com",
+    "password": "123abc"
+}

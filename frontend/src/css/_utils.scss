@@ -76,3 +76,36 @@
 .hidden {
     visibility: hidden;
 }
+
+
+.plus {
+    font-size: 15px;
+    padding-right: 5px;
+}
+
+.outer {
+    position: relative;
+    width: 100%;
+    height: 3px;
+    background-color: #E0E0E0;
+}
+
+.inner {
+    position: absolute;
+    left: 0;
+
+    height: 3px;
+    width: 58px;
+    background-color: #844fff;
+
+    transition: left 0.3s ease-in-out, width 0.3s 0.10s;
+}
+
+.active {
+    font-weight: 500;
+    color: #844fff;
+}
+
+.pointer {
+    cursor: pointer;
+}

@@ -1,6 +1,9 @@
 @import "color.scss";
 @import "font.scss";
 @import "utils.scss";
+@import "main.scss";
+@import "btn.scss";
+@import "input.scss";
 
 * {
     padding: 0px;
@@ -38,54 +41,6 @@ body {
         display: flex;
         flex-direction: column;
     }
-}
-
-.label-1 {
-    font-weight: 600;
-    font-size: calc(10px + 0.7vh);
-    color: $hex_7;
-    display: inline;
-}
-
-.input-1, .input-2 {
-    width: 100%;
-    padding: 5px 5px 5px 10px;
-    height: 2rem;
-    font-size: 0.9rem;
-    border-radius: 5px;
-
-    outline: none;
-    transition: all 0.1s ease-out;
-    color: $hex_9;
-    background-color: $grey_1;
-    border: 2px solid $grey_1;
-    background-clip: padding-box;
-}
-
-.input-1:hover {
-    border-color: $grey_2;
-}
-.input-1:focus,
-.input-1:not(:placeholder-shown),
-.input-1:-webkit-autofill {
-    background-color: white;
-    border-color: $grey_2;
-}
-
-.input-2 {
-    border-color: red !important;
-    background-color: white;
-  }
-
-.btn-1 {
-    background-color: $hex_1;
-    border-radius: 4px;
-    height: 2rem;
-    color: white;
-}
-
-.ipt-required {
-    color: red;
 }
 
 .pass-wrap {
@@ -153,20 +108,4 @@ body {
 
 
 
-.has-details {
-    position: relative;
-}
 
-.details {
-    position: absolute;
-    top: 0;
-    transform: translateY(70%) scale(0);
-    transition: transform 0.1s ease-in;
-    transform-origin: left;
-    display: inline;
-    background: white;
-    z-index: 20;
-    min-width: 100%;
-    padding: 1rem;
-    border: 1px solid black;
-}

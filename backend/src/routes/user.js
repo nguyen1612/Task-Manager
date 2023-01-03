@@ -81,7 +81,6 @@ router.get("/verify/:token", async (req, res) => {
             await Token.deleteOne({token: req.params.token});
             await new User({email, username, password}).save();
             
-            // res.send("Email verified sucessfully <h3>Back to Login</h3>");
             res.redirect("http://localhost:3000/login");
         })
     } catch (error) {
